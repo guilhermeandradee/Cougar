@@ -1,24 +1,18 @@
 import { closeConnectionDB, connectDB } from "./config/databaseConfig.js";
-import { ProblemaService } from "./services/ProblemaService.js";
+import ProblemaService from "./services/ProblemaService.js";
 
 // import { conectarDB } from "./config/databaseConfig.js";
+import { app } from "./config/serverConfig.js";
+import { router } from "./routes/ProblemaRoutes.js";
+import e from "express";
 
 
-
-
-const problemaServiceInstance = new ProblemaService(); 
+app.use(e.json());
+app.use(router)
 
 async function main(){
     
-    try {
-        await problemaServiceInstance.cadastrarProblema('Usuário triste');
         
-        await (problemaServiceInstance.buscarProblema('Usuário triste'))
-    } catch (error) {
-        console.log(error)
-    }
-    
-    closeConnectionDB()
 }
 
 main()
@@ -26,3 +20,5 @@ main()
 
 
 
+
+app.listen(process.env.SERVER_PORT, console.log('Server on!'))

@@ -4,12 +4,9 @@ import { MongoClient, ServerApiVersion } from 'mongodb';
 
 dotenv.config();
 
-
-const uri = process.env.DATABASE_URL
+const uri = process.env.MONGODB_URI
 
 export const connectDB = async () => {
-    console.log('connect DB', uri)
-
     await mongoose.connect(uri, {useNewUrlParser : true, useUnifiedTopology: true})
 }
 
