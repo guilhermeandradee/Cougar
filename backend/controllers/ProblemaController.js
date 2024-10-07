@@ -2,7 +2,7 @@ import ProblemaService from "../services/ProblemaService.js";
 
 class ProblemaController {
     async saveProblem(req, res){
-        const { descricao } = req.body
+        const { categoria, resolucao, descricao } = req.body
 
         if(descricao === undefined || descricao === null || descricao === ''){
             return res
@@ -12,7 +12,7 @@ class ProblemaController {
             });
         }
 
-        const problemaCadastrado = await ProblemaService.cadastrarProblema(descricao)
+        const problemaCadastrado = await ProblemaService.cadastrarProblema(categoria, descricao, resolucao)
 
         return res
         .status(200)
@@ -39,6 +39,38 @@ class ProblemaController {
             return res.status(400)
         }
     }
+
+    async removeProblems(req, res){
+        const { descricao } = req.body
+
+        if(descricao === undefined || descricao === null || descricao === ''){
+            return res
+            .status(400)
+            .json({ 
+                message: 'Todos os campos devem ser preenchidos!'
+            });
+        }
+
+        try {
+            const problemaRemovido = await ProblemaService.excluirProblema(descricao)
+
+            return res
+            .status(200)
+            .json({ message: 'Removido com sucesso!'})
+
+        } catch (error) {
+            return res
+            .status(400)
+            .json({ 
+                message: error.message
+            });
+        }
+
+
+
+    }
+
+    /* ----------------- */    
 }
 
 export default new ProblemaController();

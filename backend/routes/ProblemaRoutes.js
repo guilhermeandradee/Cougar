@@ -7,4 +7,4 @@ export const router = Router();
 
 router.get('/get-all-problems', ProblemaController.getAll)
 router.post('/save-problem', ProblemaController.saveProblem)
-// router.delete('/delete-problem', ProblemaController.)
+router.delete('/delete-problem', ProblemaController.removeProblems)
