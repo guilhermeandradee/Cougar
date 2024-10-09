@@ -2,7 +2,7 @@ import ProblemaService from "../services/ProblemaService.js";
 
 class ProblemaController {
     async saveProblem(req, res){
-        const { categoria, resolucao, descricao } = req.body
+        const { categoria, resolucao, descricao, descricao_palavras_chave } = req.body
 
         if(descricao === undefined || descricao === null || descricao === ''){
             return res
@@ -12,7 +12,7 @@ class ProblemaController {
             });
         }
 
-        const problemaCadastrado = await ProblemaService.cadastrarProblema(categoria, descricao, resolucao)
+        const problemaCadastrado = await ProblemaService.cadastrarProblema(categoria, descricao, resolucao, descricao_palavras_chave)
 
         return res
         .status(200)

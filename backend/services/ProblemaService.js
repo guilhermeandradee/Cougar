@@ -1,14 +1,22 @@
 import Problema from "../models/ProblemaModel.js";
 import { connectDB, closeConnectionDB } from "../config/databaseConfig.js";
+import gerar_palavras_chave from "./IAService.js";
 
 class ProblemaService {
     async cadastrarProblema(categoria, descricao, resolucao){
         await connectDB()
-        const newProblem = new Problema({ categoria, descricao, resolucao });
 
-        const savedProblem = await newProblem.save();
-        console.log('Problema salvo:', savedProblem);
+        try {
+            const descricao_palavras_chave = await gerar_palavras_chave(descricao) // Par asso funcionar atualizar api key
+        
+            const newProblem = new Problema({ categoria, descricao, resolucao, descricao_palavras_chave });
+            
+            const savedProblem = await newProblem.save();
+            console.log('Problema salvo:', savedProblem);
         await closeConnectionDB()
+        } catch (error) {
+            console.log(error)
+        }
         return savedProblem;
     }
 
@@ -61,4 +69,5 @@ class ProblemaService {
 
     }
 }
-export default new ProblemaService(); 
+export default new ProblemaService();
+
