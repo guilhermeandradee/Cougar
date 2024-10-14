@@ -106,9 +106,6 @@ class ProblemaController {
         if (!id) {
             return res
             .status(400)
-            .json({ 
-                message: 'Todos os campos devem ser preenchidos!'
-            });
         }
 
         try {
