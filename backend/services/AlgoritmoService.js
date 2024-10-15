@@ -33,4 +33,4 @@ async function calcularSimilaridade(descricaoUsuario) {
   return matches[0].problema;
 }
 
-calcularSimilaridade('habilitar acesso usuário sistema validação')
+calcularSimilaridade('habilitar acesso usuario sistema validação')

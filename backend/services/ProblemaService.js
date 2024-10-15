@@ -15,7 +15,7 @@ async function createId() {
 }
 
 class ProblemaService {
-    async cadastrarProblema(categoria, descricao, resolucao){
+    async cadastrarProblema(categoria, descricao, resolucao, descricao_palavras_chave){
         await connectDB()
 
         let savedProblem;
@@ -33,7 +33,6 @@ class ProblemaService {
         } finally {
            await closeConnectionDB();
         }
-        return savedProblem;
     }
 
 
