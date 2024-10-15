@@ -232,7 +232,7 @@ function App() {
                     <img src="\images\imagem_2024-03-27_171656305-removebgcopia-preview.png" style={{width: '50%', filter: 'invert(100%)'}} alt="" />
                 </div>
 
-                <div className='d-flex w-100 mt-5 flex-column  font-anybody '>              
+                <div className='d-flex w-100 mt-5 flex-column font-anybody '>              
                     <div className='w-70 text-light mt-5'>
 
                         <div className=" d-flex align-items-center mt-4 ps-2">
@@ -242,7 +242,7 @@ function App() {
                         <hr />
 
                         <div className="border-start border-2 d-flex align-items-center mt-4 ps-2">
-                            <a href="/sistema-de-fluxo" className='m-0 fw-bold text-decoration-none text-light' style={{fontSize: "100%"}}>Sistema de fluxo</a>
+                            <a href="/sistema-de-fluxo" className='m-0 fw-bold text-decoration-none text-light' style={{fontSize: "100%"}}>Peruntar ao Cougar</a>
                         </div>
 
                         <hr />
@@ -265,25 +265,26 @@ function App() {
                     <Header />
 
                     <div className='container-fluid' style={{height: "60%"}}>
-                        <div className='row justify-content-around align-items-center px-3 h-100 position-relative'>
+                        <div className='row justify-content-around  px-3 h-100 position-relative'>
 
-                        { downloadResponse && (
-                            <p style={{top: '90%', left: '10%', width: '80%'}} className='text-light text-center p-3 bg-success rounded-lg position-absolute' >{downloadResponse}</p>
-                        )}
+                            { downloadResponse && (
+                                <p style={{top: '90%', left: '10%', width: '80%'}} className='text-light text-center p-3 bg-success rounded-lg position-absolute' >{downloadResponse}</p>
+                            )}
 
-                        
+                            <div className='col-md-8 col-sm-10 d-flex align-items-center flex-column mt-5'>
+                                    <p className='row text-low text-center mt-3 fs-5'>Digite uma breve descrição abaixo e descubra a melhor solução personalizada para o seu suporte</p>
 
-                        { currentQuestionOptions.map(option => (
-                            <div 
-                            key={option.nextId} 
-                            className='card-options bg-secondaryy col-12 col-sm-2 rounded-lg align-items-center d-flex mt-sm-0 mt-4 cursor-pointer' 
-                            style={{
-                                height: "50%"}} 
-                            onClick={() => handleOptionClick(option.nextId, option.file)}
-                            >
-                                <p className='fs-6 fw-bold text-light m-0 text-start'>{option.text}</p>
+                                    <div className='row-12 w-100 mt-5'>
+                                        <textarea name="resolucao" placeholder="Trocar permissões de acesso de um usuário" className="text-light mt-4 form-control bg-secondaryy border-0 px-3 py-3 pb-5 rounded-lg gray-placeholder" id="" maxlength="300">
+
+                                        </textarea>
+                                    </div>
+
+                                    
+                                    <button className="row-12 btn text-light bg-secondaryy rounded-lg w-100 mb-5 mt-4 p-2" >Adicionar</button>
+                                    
+
                             </div>
-                            ))}
                 
                         </div>
 

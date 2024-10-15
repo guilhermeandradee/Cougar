@@ -31,4 +31,6 @@ async function gerar_palavras_chave(description) {
 
 }
 
+
+
 export default gerar_palavras_chave;

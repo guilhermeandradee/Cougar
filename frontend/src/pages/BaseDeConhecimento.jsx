@@ -16,6 +16,7 @@ const BaseDeConhecimento = () => {
 
     const [searchTerm, setSearchTerm] = useState('');
 
+    const [removeProblem, setRemoveProblem] = useState(null)
 
     const [knowledgeBase, setKnowledgeBase] = useState([
         {
@@ -51,7 +52,9 @@ const BaseDeConhecimento = () => {
         }));
     };
 
-    console.log(newProblem)
+    const removeProblemRequest = (index) => {
+        console.log('removed', index)
+    }
 
     const addProblem = () => {
         setKnowledgeBase(prevState => [...prevState, newProblem])
@@ -100,7 +103,12 @@ const BaseDeConhecimento = () => {
                         {
                             filteredKnowledgeBase.map((problem, index) => (
                                 <div className={`text-light ${index !== knowledgeBase.length - 1 ? 'mb-5' : ''}`}>
-                                    <h2 className="fs-4">{problem.categoria}</h2>
+                                    <div className="d-flex justify-content-between">
+                                        <h2 className="fs-4 cursor-pointer" onClick={() => setRemoveProblem(removeProblem === index ? null : index)} >{problem.categoria}</h2>
+
+                                        {removeProblem === index && (<IoRemoveCircleOutline className="fs-4 text-light cursor-pointer" onClick={() => removeProblemRequest('Insira o ID ou identificador para excluir')}/>)}
+                                            {/* Adicionar propriedades de objeto */}
+                                    </div>
                                     <hr />
 
                                     <p className="ms-2 mb-3">{problem.tipo}</p>
@@ -135,7 +143,6 @@ const BaseDeConhecimento = () => {
 
                         <IoRemoveCircleOutline onClick={changeShowInput} className="fs-4 text-light position-absolute cursor-pointer" style={{top:10, left: 'calc(100% - 20px)', }}  />
 
-                        <input name="tipo" placeholder="Tipo" type="text" className="text-light mt-4 form-control bg-secondaryy border-0 px-3 py-3 rounded-lg gray-placeholder" style={{width: "100%"}} onChange={handleChange} />
 
                         <input name="descricao" placeholder="Descrição" type="text" className="text-light mt-4 form-control bg-secondaryy border-0 px-3 py-3 rounded-lg gray-placeholder" style={{width: "100%"}} onChange={handleChange} />
 
