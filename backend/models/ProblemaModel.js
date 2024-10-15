@@ -4,7 +4,11 @@ import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
 
-const ProblemaSchema = new Schema({
+const ProblemaSchema = new mongoose.Schema({
+  id:{
+    type: Number,
+    required: true,
+  },
   categoria: {
     type: String,
     required: true,
