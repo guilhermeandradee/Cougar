@@ -1,4 +1,7 @@
+import gerar_palavras_chave from "../services/IAService.js";
 import ProblemaService from "../services/ProblemaService.js";
+import IAService from "../services/IAService.js";
+import AlgoritmoService from "../services/AlgoritmoService.js";
 
 class ProblemaController {
     async saveProblem(req, res) {
@@ -13,14 +16,20 @@ class ProblemaController {
                 });
         }
 
-        const problemaCadastrado = await ProblemaService.cadastrarProblema(categoria, descricao, resolucao, descricao_palavras_chave)
+        try {
+            const problemaCadastrado = await ProblemaService.cadastrarProblema(categoria, descricao, resolucao, descricao_palavras_chave)
 
-        return res
-        .status(201)
-        .json({ 
-            message: 'Problema cadastrado com sucesso!',
-            data: problemaCadastrado 
-        });
+            return res
+            .status(201)
+            .json({ 
+                message: 'Problema cadastrado com sucesso!',
+                data: problemaCadastrado 
+            });
+        } catch (error) {
+            return res.status(400).json({ message: error.message });
+        }
+
+        
     }
 
     async updateProblem(req, res) {
@@ -130,6 +139,25 @@ class ProblemaController {
     }
 
     /* ----------------- */    
+
+    async getSolution(req, res){
+        const { descricao } = req.body;
+
+        if(!descricao || descricao === null || descricao === ''){
+            return res.status(400).json({
+                message: 'Você deve inserir uma descrição!'
+            });
+        }
+
+        const similaridade = await AlgoritmoService.calcularSimilaridade(descricao)
+
+        // console.log(similaridade)
+
+        return res.status(200).json({
+            message: 'Solução gerada!', 
+            data: similaridade
+        })
+    }
 }
 
 export default new ProblemaController();
