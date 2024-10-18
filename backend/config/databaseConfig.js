@@ -1,8 +1,8 @@
 import mongoose, { mongo } from 'mongoose';
-import dotenv from 'dotenv';
+import { configDotenv } from 'dotenv';
 import { MongoClient, ServerApiVersion } from 'mongodb';
 
-dotenv.config();
+configDotenv()
 
 const uri = process.env.MONGODB_URI
 
