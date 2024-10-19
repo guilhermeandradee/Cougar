@@ -1,6 +1,7 @@
 import ProblemaService from "../services/ProblemaService.js";
 
 class ProblemaController {
+
     async saveProblem(req, res) {
         console.log('Dados recebidos:', req.body);
         const { categoria, resolucao, descricao, descricao_palavras_chave } = req.body;
@@ -100,7 +101,7 @@ class ProblemaController {
         }
     }
 
-    async removeProblems(req, res){
+    async removeProblem(req, res){
         const { id } = req.params;
 
         if (!id) {
