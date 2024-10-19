@@ -15,13 +15,21 @@ async function createId() {
 }
 
 class ProblemaService {
+<<<<<<< HEAD
+    async cadastrarProblema(categoria, descricao, resolucao){
+=======
     async cadastrarProblema(categoria, descricao, resolucao, descricao_palavras_chave){
+>>>>>>> origin/main
         await connectDB()
 
         let savedProblem;
         try {
             const id = await createId();
+<<<<<<< HEAD
+            const descricao_palavras_chave = await gerar_palavras_chave(descricao) // Par asso funcionar atualizar api key
+=======
             // const descricao_palavras_chave = await gerar_palavras_chave(descricao) // Par asso funcionar atualizar api key
+>>>>>>> origin/main
             const newProblem = new Problema({ id: id, categoria, descricao, resolucao, descricao_palavras_chave });
            
             savedProblem = await newProblem.save();
@@ -33,6 +41,10 @@ class ProblemaService {
         } finally {
            await closeConnectionDB();
         }
+<<<<<<< HEAD
+        return savedProblem;
+=======
+>>>>>>> origin/main
     }
 
 

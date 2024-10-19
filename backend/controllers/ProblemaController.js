@@ -109,8 +109,8 @@ class ProblemaController {
         }
     }
 
-    async removeProblems(req, res){
-        const { descricao } = req.params;
+    async removeProblem(req, res){
+        const { id } = req.params;
 
         if (!id) {
             return res
@@ -118,7 +118,7 @@ class ProblemaController {
         }
 
         try {
-            const problemaRemovido = await ProblemaService.excluirProblema(descricao)
+            const problemaRemovido = await ProblemaService.excluirProblema(id)
 
             return res
             .status(200)
