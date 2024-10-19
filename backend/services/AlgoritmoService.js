@@ -3,34 +3,48 @@ import Problema from "../models/ProblemaModel.js";
 import pkg from 'natural';
 const { TfIdf } = pkg;  // Importando o TfIdf corretamente
 
-async function calcularSimilaridade(descricaoUsuario) {
-    await connectDB()
+class AlgoritmoService {
 
-    const problemas = await Problema.find();
+    async calcularSimilaridade(descricaoUsuario) {
+        await connectDB()
 
-    await closeConnectionDB()
+        const problemas = await Problema.find();
+        console.log(problemas)
 
-  let tfidf = new TfIdf();
+        await closeConnectionDB()
 
-  problemas.forEach(problema => {
-    tfidf.addDocument(problema.descricao);  // Adicionar cada descrição ao TF-IDF
-  });
+    let tfidf = new TfIdf();
 
-  const matches = [];
-  tfidf.tfidfs(descricaoUsuario, (i, measure) => {
-    matches.push({ problema: problemas[i], score: measure });
-  });
+    problemas.forEach(problema => {
+        tfidf.addDocument(problema.descricao);  // Adicionar cada descrição ao TF-IDF
+    });
 
-  // Ordenar por similaridade
-  matches.sort((a, b) => b.score - a.score)
-  console.log(matches.slice(0, 3))
+    const matches = [];
 
-  // Retorna o problema mais relevante
-//   top5.forEach(element => {
-//     console.log(element.problema.resolucao);
-// });
-//   console.log(matches[0].problema.resolucao)
-  return matches[0].problema;
+    tfidf.tfidfs(descricaoUsuario, (i, measure) => {
+        matches.push({ problema: problemas[i], score: measure });
+    });
+
+    
+    console.log("Número de matches:", matches.length);
+    // Ordenar por similaridade
+    const similaridade = matches.sort((a, b) => b.score - a.score)
+
+    const top3 = similaridade.slice(0, 3)
+    
+    // console.log(similaridade.slice(0, 3))
+    
+
+    // Retorna o problema mais relevante
+    //   top5.forEach(element => {
+    //     console.log(element.problema.resolucao);
+    // });
+    //   console.log(matches[0].problema.resolucao)
+    return top3;
+
+    }
 }
 
-calcularSimilaridade('habilitar acesso usuário sistema validação')
+// new AlgoritmoService().calcularSimilaridade('habilitar acesso usuario sistema validação')
+
+export default new AlgoritmoService();
