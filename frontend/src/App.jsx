@@ -1,9 +1,13 @@
 import './App.css'
 import './index.css'
 
+import axios from 'axios'
+
 import { useState } from 'react';
 /* componentes */
 import Header from './components/Header'
+
+const APIurl = 'http://localhost:8080'
 
 function App() {
     const [downloadResponse, setDownloadResponse] = useState(null)
@@ -19,7 +23,6 @@ function App() {
     };
 
     const [currentQuestionId, setCurrentQuestionId] = useState(1);
-    
     const questions = {
         1: { 
           text: "Gestão Acessos", 
@@ -220,6 +223,16 @@ function App() {
     console.log(currentQuestion)
     console.log(currentQuestionOptions)
 
+    const [inputGetSolution, setInputGetSolution] = useState(null)
+    const getSolutionOfProblem = async () => {
+        const data = {
+            "descricao": inputGetSolution
+        }
+
+        const response = await axios.get()
+
+    }
+
   return (
     <>
 
@@ -275,13 +288,13 @@ function App() {
                                     <p className='row text-low text-center mt-3 fs-5'>Digite uma breve descrição abaixo e descubra a melhor solução personalizada para o seu suporte</p>
 
                                     <div className='row-12 w-100 mt-5'>
-                                        <textarea name="resolucao" placeholder="Trocar permissões de acesso de um usuário" className="text-light mt-4 form-control bg-secondaryy border-0 px-3 py-3 pb-5 rounded-lg gray-placeholder" id="" maxlength="300">
+                                        <textarea name="resolucao" placeholder="Trocar permissões de acesso de um usuário" className="text-light mt-4 form-control bg-secondaryy border-0 px-3 py-3 pb-5 rounded-lg gray-placeholder" id="" maxlength="300" onChange={(e) => setInputGetSolution(e.target.value)}>
 
                                         </textarea>
                                     </div>
 
                                     
-                                    <button className="row-12 btn text-light bg-secondaryy rounded-lg w-100 mb-5 mt-4 p-2" >Adicionar</button>
+                                    <button onClick={() => getSolutionOfProblem()} className="row-12 btn text-light bg-secondaryy rounded-lg w-100 mb-5 mt-4 p-2" >Adicionar</button>
                                     
 
                             </div>
