@@ -1,8 +1,6 @@
 import xlsx from 'xlsx';
 import { connectDB, closeConnectionDB } from "../config/databaseConfig.js";
 import ProblemaService from './ProblemaService.js';
-import Problema from "../models/ProblemaModel.js"; // Importando o modelo Problema
-
 
 class ImportService {
     async processSheet(filePath) {
@@ -13,19 +11,23 @@ class ImportService {
             const sheetName = book.SheetNames[0];
             const sheet = book.Sheets[sheetName];
 
-            const data = xlsx.utils.sheet_to_json(sheet);
+            // Obtém os dados, incluindo a primeira linha
+            const data = xlsx.utils.sheet_to_json(sheet, { header: 1 });
             console.log('Dados lidos da planilha:', data);
 
-            for (const row of data) {
+            // Ignora a primeira linha se contiver cabeçalhos
+            for (let i = 1; i < data.length; i++) {
+                const row = data[i];
                 try {
                     const savedProblem = await ProblemaService.cadastrarProblema(
-                        row.categoria,
-                        row.descricao,
-                        row.resolucao
+                        row[0], // Categoria
+                        row[1], // Descrição
+                        row[2]  // Resolução
                     );
+                    
                     console.log('Problema salvo com sucesso:', savedProblem);
                 } catch (error) {
-                    console.error('Erro ao salvar o problema:', formattedData, error.message);
+                    console.error('Erro ao salvar o problema:', row, error.message);
                 }
             }
 
