@@ -5,8 +5,9 @@ import ProblemaService from "./services/ProblemaService.js";
 import { app } from "./config/serverConfig.js";
 import { router } from "./routes/ProblemaRoutes.js";
 import e from "express";
+import cors from 'cors'
 
-
+app.use(cors())
 app.use(e.json());
 app.use(router)
 

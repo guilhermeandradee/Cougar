@@ -9,7 +9,6 @@ class AlgoritmoService {
         await connectDB()
 
         const problemas = await Problema.find();
-        console.log(problemas)
 
         await closeConnectionDB()
 
