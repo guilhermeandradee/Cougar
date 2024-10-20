@@ -15,14 +15,14 @@ async function createId() {
 }
 
 class ProblemaService {
-    async cadastrarProblema(categoria, descricao, resolucao, descricao_palavras_chave){
+    async cadastrarProblema(categoria, descricao, resolucao) {
         await connectDB()
 
         let savedProblem;
         try {
             const id = await createId();
             // const descricao_palavras_chave = await gerar_palavras_chave(descricao) // Par asso funcionar atualizar api key
-            const newProblem = new Problema({ id: id, categoria, descricao, resolucao, descricao_palavras_chave });
+            const newProblem = new Problema({ id: id, categoria, descricao, resolucao});
            
             savedProblem = await newProblem.save();
 

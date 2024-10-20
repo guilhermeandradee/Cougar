@@ -5,7 +5,8 @@
   "description": "",
   "main": "Main.js",
   "scripts": {
-    "test": "test"
+    "test": "test",
+    "dev": "nodemon Main.js"
   },
   "author": "",
   "license": "ISC",
@@ -16,6 +17,10 @@
     "express": "^4.21.0",
     "mongoose": "^8.7.0",
     "natural": "^8.0.1",
-    "openai": "^4.67.1"
+    "openai": "^4.67.1",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.7"
   }
 }
