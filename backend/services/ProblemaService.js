@@ -145,6 +145,17 @@ class ProblemaService {
         
 
     }
+
+    async buscarQuantidadeEspecifica(skip, limit){
+        await connectDB()
+        try {
+            const problems = await Problema.find().skip(skip).limit(Number(limit));
+            return problems
+        } catch (error) {
+            console.log(error)
+        }
+        await closeConnectionDB()
+    }
 }
 export default new ProblemaService();
 
