@@ -92,3 +92,12 @@
 .text-low {
     color: #b8b8b8;
 }
+
+.page {
+    opacity: 1;
+    transition: opacity 0.5s ease-in-out;
+}
+
+  .page-hidden {
+    opacity: 0;
+}

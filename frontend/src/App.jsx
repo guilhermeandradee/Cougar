@@ -7,13 +7,22 @@ import { useState } from 'react';
 /* componentes */
 import Header from './components/Header'
 import Solutions from './components/Solutions';
+import Section from './components/Section';
 
-const APIurl = 'http://localhost:8080'
+export const APIurl = 'http://localhost:8080'
 
 function App() {
     const [downloadResponse, setDownloadResponse] = useState(null)
 
     const [solutions, setSolutions] = useState(null)
+
+    const [isAnimating, setIsAnimating] = useState(false);
+    const transitionPage = () => {
+        setIsAnimating(true)
+        setTimeout(() => {
+            setIsAnimating(false)
+        }, 1500)
+    }
 
     const [inputGetSolution, setInputGetSolution] = useState(null)
     const getSolutionOfProblem = async () => {
@@ -23,6 +32,7 @@ function App() {
 
         try {
             const response = await axios.post(`${APIurl}/get-solution`, data)
+            setIsAnimating(true)
 
             setSolutions(response.data)
 
@@ -30,7 +40,8 @@ function App() {
 
             setTimeout(() => {
                 setRetornarInputOuSolucao('solucao')
-            }, 3000)
+                setIsAnimating(false)
+            }, 1500)
         } catch (error) {
             console.log(error.message)
         }
@@ -39,48 +50,21 @@ function App() {
 
     const [retornarInputOuSolucao, setRetornarInputOuSolucao] = useState('input')
 
+    const backToInput = () => {
+        setRetornarInputOuSolucao('input')
+    }
+
   return (
     <>
 
         <div className='container-fluid bg-warning h-100-vh' >
 
-            <div className=' h-100-vh bg-success row'>
+            <div className=' h-100-vh bg-primaryy row'>
 
-                <section className='col-12 col-sm-3 bg-secondaryy h-100-vh px-3'>
-                    <div className="w-100 d-flex align-items-center justify-content-center mt-5">
-                        <img src="\images\imagem_2024-03-27_171656305-removebgcopia-preview.png" style={{width: '50%', filter: 'invert(100%)'}} alt="" />
-                    </div>
+                <Section />
 
-                    <div className='d-flex w-100 mt-5 flex-column font-anybody '>              
-                        <div className='w-70 text-light mt-5'>
-
-                            <div className=" d-flex align-items-center mt-4 ps-2">
-                                <a href="/" className='m-0 fw-bold text-decoration-none text-light' style={{fontSize: "100%"}}>Links</a>
-                            </div>
-
-                            <hr />
-
-                            <div className="border-start border-2 d-flex align-items-center mt-4 ps-2">
-                                <a href="/sistema-de-fluxo" className='m-0 fw-bold text-decoration-none text-light' style={{fontSize: "100%"}}>Peruntar ao Cougar</a>
-                            </div>
-
-                            <hr />
-
-                            <div className=" d-flex align-items-center mb-4 ps-2">
-                                <a className='m-0 fw-bold text-decoration-none text-light' style={{fontSize: "100%"}} href="/base-de-conhecimento">Base de conhecimento</a>
-                            </div>
-
-                            <hr className='w-100' />
-
-                            <div className="d-flex align-items-center mt-4 ps-2">
-                                <a className='fw-bold m-0 text-decoration-none text-light' style={{fontSize: "100%"}} href="/sobre-o-projeto">Sobre o projeto</a>
-                            </div>
-
-                        </div>
-                    </div>
-                </section>
-
-                <main className='col p-0 bg-primaryy w-100 h-100-vh' >
+                <main className={`page ${isAnimating ? 'page-hidden' : ''}
+                  col p-0 bg-primaryy w-100 h-100-vh`} >
                     <Header />
 
                     { retornarInputOuSolucao === 'input' ? (
@@ -111,7 +95,7 @@ function App() {
                             </div>
                         </div>
                     ) : (
-                        <Solutions solutions={solutions} />
+                        <Solutions transitionPage={transitionPage} backToInput={backToInput} solutions={solutions} />
                     ) }
                     
                 </main>

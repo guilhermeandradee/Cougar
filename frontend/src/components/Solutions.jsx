@@ -1,9 +1,16 @@
 import { useState } from "react"
 
-const Solutions = ({ solutions }) => {
+const Solutions = ({ solutions, backToInput, transitionPage }) => {
 
     console.log(solutions.data)
     const top3Solutions = solutions.data
+
+    const handleClickButton = () => {
+        transitionPage()
+        setTimeout(() => {
+            backToInput()
+        }, 1500)
+    }
 
     return (
         <>
@@ -26,7 +33,7 @@ const Solutions = ({ solutions }) => {
                             <div className="mt-4 col-12 justify-content-center d-flex bg-secondaryy rounded text-light p-3" >Solução 3</div> */}
                         </div>
 
-                        <button className="mt-5 mb-4 option-back-btn bg-secondaryy rounded text-light p-3 border-0 w-100">Voltar</button>
+                        <button onClick={handleClickButton} className="mt-5 mb-4 option-back-btn bg-secondaryy rounded text-light p-3 border-0 w-100">Voltar</button>
                 </div>
             </div>
         </>
