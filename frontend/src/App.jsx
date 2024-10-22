@@ -1,5 +1,6 @@
 import './App.css'
 import './index.css'
+import './Home.css'
 
 import axios from 'axios'
 

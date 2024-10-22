@@ -8,9 +8,24 @@ import { IoRemoveCircleOutline } from "react-icons/io5";
 import Section from "../components/Section";
 import axios from "axios";
 import { APIurl } from "../App";
+import { Link, useNavigate } from "react-router-dom";
 
 
 const BaseDeConhecimento = () => {
+
+    const navigate = useNavigate()
+    const goToPage = (id) => {
+        transitionPage()
+        setTimeout(() => navigate(`/base-de-conhecimento/problema/${id}`), 500)
+    }
+
+    const [isAnimating, setIsAnimating] = useState(false);
+    const transitionPage = () => {
+        setIsAnimating(true)
+        setTimeout(() => {
+            setIsAnimating(false)
+        }, 1500)
+    }
 
     const [dataProblems, setDataProblems] = useState(null)
 
@@ -21,24 +36,6 @@ const BaseDeConhecimento = () => {
 
     const [removeProblem, setRemoveProblem] = useState(null)
 
-    const [knowledgeBase, setKnowledgeBase] = useState([
-        {
-            categoria: 'SAP',
-            tipo: 'Inativação de conta',
-            descricao: 'Após o desligamento de um usuário temporariamente, o mesmo deve ter sua conta inativa até o retorno',
-            resolucao: '1. Obtenha o nome de usuário \n 2. Entre no sistema na aba inativação de contas \n 3.0 Desative a conta do usuário.'
-        } ,
-        {
-            categoria: 'Gestão perfil',
-            tipo: 'Criação de perfil',
-            descricao: 'Após a entrada de um novo colaborador, o mesmo deve ter uma conta própria com ermissões específicas.',
-            resolucao: '1. Entre na aba "Criação de Conta \n 2. Defina um nome de usuário \n 3. Defina uma senha \n 4. Defina as permissões"'
-        }
-    ])
-
-    const filteredKnowledgeBase = knowledgeBase.filter(problem =>
-        searchTerm === '' || problem.tipo.toLowerCase().startsWith(searchTerm.toLowerCase())
-      );
 
     const [data, setNewProblem] = useState({
         categoria: '',
@@ -97,7 +94,7 @@ const BaseDeConhecimento = () => {
 
     const showInputInitial = () => {
         return(
-            <div className='container-fluid px-sm-5 px-3'>
+            <div className={`page ${isAnimating ? 'page-hidden' : ''} container-fluid px-sm-5 px-3`}>
                 <div className="d-flex justify-content-center mt-5 px-sm-5">
                     <div className="position-relative " style={{width: "80%"}}>
                         <input 
@@ -119,10 +116,13 @@ const BaseDeConhecimento = () => {
                     <div className="bg-secondaryy rounded-lg py-3 py-sm-5 px-sm-5 px-3" style={{width: "80%"}}>
 
                         {
-                            dataProblems && dataProblems.map((problem, index) => (
-                                <div key={problem.id} className={`cursor-pointer text-light ${index !== dataProblems.length - 1 ? 'mb-5' : ''}`}>
+                            dataProblems ? dataProblems.map((problem, index) => (
+                                <div 
+                                key={problem.id} 
+                                onClick={() => goToPage(problem.id)}
+                                className={`cursor-pointer text-light ${index !== dataProblems.length - 1 ? 'mb-5' : ''}`}>
                                     <div className="d-flex justify-content-between ">
-                                        <h2 className="fs-4 cursor-pointer" onClick={() => setRemoveProblem(removeProblem === index ? null : index)} >{problem.categoria}</h2>
+                                        <h2 className="fs-4 cursor-pointer">{problem.categoria}</h2>
 
                                         {removeProblem === index && (<IoRemoveCircleOutline className="fs-4 text-light cursor-pointer" onClick={() => removeProblemRequest('Insira o ID ou identificador para excluir')}/>)}
                                             {/* Adicionar propriedades de objeto */}
@@ -135,7 +135,7 @@ const BaseDeConhecimento = () => {
 
                                     <p className="ms-2 mb-3">{problem.resolucao}</p>
                                 </div>
-                            ))
+                            )) : <p className="p-3 text-center">Carregando...</p>
                         }
 
                         

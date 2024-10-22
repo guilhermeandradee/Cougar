@@ -11,6 +11,14 @@ import { HiDocumentRemove } from "react-icons/hi";
 
 const ProblemaDaBase = () => {
 
+    const [isAnimating, setIsAnimating] = useState(true);
+    const transitionPage = () => {
+        setIsAnimating(true)
+        setTimeout(() => {
+            setIsAnimating(false)
+        }, 1500)
+    }
+
     const { id } = useParams()
 
     const [data, setData] = useState(null)
@@ -24,23 +32,22 @@ const ProblemaDaBase = () => {
         } catch (error) {
             console.error(error)
         }
-        setIsLoading(false)
     }
 
     useEffect(() => {
         getData()
-
+        setTimeout(() => setIsAnimating(false), 500)
     }, [])
 
     return(
         <>
-            <div className='container-fluid bg-warning h-100-vh' >
+            <div className={`container-fluid bg-warning h-100-vh`} >
                 <div className=' h-100-vh bg-primaryy row'>
                     <Section />
                     <main className="col p-0 bg-primaryy w-100 h-100-vh">
                         <Header />
 
-                        <div className='mt-5 bg-secondaryy text-light container w-80 justify-content-center d-flex flex-column p-4 rounded-lg' >
+                        <div className={`page ${isAnimating ? 'page-hidden' : ''}   mt-5 bg-secondaryy text-light container w-80 justify-content-center d-flex flex-column p-4 rounded-lg`} >
                             {/* <div className="d-flex flex-column align-items-center w-80 bg-success">
                                 
                             </div> */}
@@ -48,8 +55,8 @@ const ProblemaDaBase = () => {
                                 <h2 className="col fs-4 cursor-pointer">{data && data.categoria}</h2>
 
                                 <div className="col col-sm-5 d-flex  align-items-center justify-content-end ">
-                                    <FaRegEdit  />
-                                    <HiDocumentRemove className="mx-4" />
+                                    {/* <FaRegEdit  /> */}
+                                    <HiDocumentRemove  className="mx-4" />
                                 </div>
                                 
                             </div>
