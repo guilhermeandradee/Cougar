@@ -4,7 +4,7 @@ import './Home.css'
 
 import axios from 'axios'
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 /* componentes */
 import Header from './components/Header'
 import Solutions from './components/Solutions';
@@ -17,7 +17,12 @@ function App() {
 
     const [solutions, setSolutions] = useState(null)
 
-    const [isAnimating, setIsAnimating] = useState(false);
+
+    useEffect(() => setTimeout(() => {
+        setIsAnimating(false)
+    }, 300), [])
+
+    const [isAnimating, setIsAnimating] = useState(true);
     const transitionPage = () => {
         setIsAnimating(true)
         setTimeout(() => {
@@ -62,14 +67,14 @@ function App() {
 
             <div className=' h-100-vh bg-primaryy row'>
 
-                <Section />
+                <Section presentTopic={1} />
 
-                <main className={`page ${isAnimating ? 'page-hidden' : ''}
+                <main className={`
                   col p-0 bg-primaryy w-100 h-100-vh`} >
                     <Header />
 
                     { retornarInputOuSolucao === 'input' ? (
-                        <div className='container-fluid' style={{height: "60%"}}>
+                        <div className={`page ${isAnimating ? 'page-hidden' : ''}   container-fluid`} style={{height: "60%"}}>
                             <div className='row justify-content-around  px-3 h-100 position-relative'>
 
                                 { downloadResponse && (

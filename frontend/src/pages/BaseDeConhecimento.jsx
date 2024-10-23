@@ -10,6 +10,8 @@ import axios from "axios";
 import { APIurl } from "../App";
 import { Link, useNavigate } from "react-router-dom";
 
+import { IoMdArrowRoundForward } from "react-icons/io";
+import { IoMdArrowRoundBack } from "react-icons/io";
 
 const BaseDeConhecimento = () => {
 
@@ -19,7 +21,7 @@ const BaseDeConhecimento = () => {
         setTimeout(() => navigate(`/base-de-conhecimento/problema/${id}`), 500)
     }
 
-    const [isAnimating, setIsAnimating] = useState(false);
+    const [isAnimating, setIsAnimating] = useState(true);
     const transitionPage = () => {
         setIsAnimating(true)
         setTimeout(() => {
@@ -56,21 +58,33 @@ const BaseDeConhecimento = () => {
         console.log('removed', index)
     }
 
+    const [page, setPage] = useState(1)
+
     const searchSomeProblems = async () => {
         try {
-            const response = await axios.get(`${APIurl}/problems-quantity?page=1&limit=3`)
+            const response = await axios.get(`${APIurl}/problems-quantity?page=${page}&limit=3`)
 
             setDataProblems(response.data.problems)
             console.log(response.data)
 
         } catch (error) {
-            
+            console.log(error)
+        }
+    }
+    
+    const changePage = (prevOrNext) => {
+        if(prevOrNext === 'prev'){
+            page > 1 && setPage(page - 1)
+        } else if (prevOrNext === 'next'){
+            setPage(page + 1)
         }
     }
 
     useEffect(() => {
-        searchSomeProblems();
-    }, [])
+        setIsAnimating(true)
+        setTimeout(() => searchSomeProblems(), 300);
+        setTimeout(() => setIsAnimating(false), 500);
+    }, [page])
 
     const addProblem = async () => {
         try {
@@ -94,6 +108,7 @@ const BaseDeConhecimento = () => {
 
     const showInputInitial = () => {
         return(
+            
             <div className={`page ${isAnimating ? 'page-hidden' : ''} container-fluid px-sm-5 px-3`}>
                 <div className="d-flex justify-content-center mt-5 px-sm-5">
                     <div className="position-relative " style={{width: "80%"}}>
@@ -112,7 +127,7 @@ const BaseDeConhecimento = () => {
                     </div>
                 </div>
 
-                <div className="d-flex justify-content-center mt-5 px-sm-5">
+                <div className="d-flex justify-content-center flex-column align-items-center mt-5 px-sm-5">
                     <div className="bg-secondaryy rounded-lg py-3 py-sm-5 px-sm-5 px-3" style={{width: "80%"}}>
 
                         {
@@ -133,13 +148,20 @@ const BaseDeConhecimento = () => {
 
                                     <p className="ms-2 mb-3">{problem.descricao}</p>
 
-                                    <p className="ms-2 mb-3">{problem.resolucao}</p>
+                                    {/* <p className="ms-2 mb-3">{problem.resolucao}</p> */}
+
+                                    
                                 </div>
-                            )) : <p className="p-3 text-center">Carregando...</p>
+
+                            )) : <p className="text-light p-3 text-center">Carregando...</p>
                         }
 
-                        
                     </div> 
+
+                    <div className=" d-flex justify-content-around  text-light  rounded w-80 mb-5 mt-4 p-2" >
+                        <div onClick={() => changePage('prev')} className="col-3 bg-secondaryy option-back-btn btn text-light"><IoMdArrowRoundBack/></div>
+                        <div onClick={() => changePage('next')} className="col-3 bg-secondaryy option-back-btn btn text-light"><IoMdArrowRoundForward/></div>
+                    </div>
                 </div>
 
             </div>
@@ -193,7 +215,7 @@ const BaseDeConhecimento = () => {
 
                 <div className=' h-100-vh bg-success row'>
 
-                    <Section />
+                    <Section presentTopic={2} />
 
                     <main className='col p-0 bg-primaryy w-100 h-100-vh' >
                         <Header />
