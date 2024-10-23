@@ -1,15 +1,35 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
 import '../Home.css'
 
 import { CiSearch } from "react-icons/ci";
 import { MdAddCircleOutline } from "react-icons/md";
 import { IoRemoveCircleOutline } from "react-icons/io5";
+import Section from "../components/Section";
+import axios from "axios";
+import { APIurl } from "../App";
+import { Link, useNavigate } from "react-router-dom";
 
-
-
+import { IoMdArrowRoundForward } from "react-icons/io";
+import { IoMdArrowRoundBack } from "react-icons/io";
 
 const BaseDeConhecimento = () => {
+
+    const navigate = useNavigate()
+    const goToPage = (id) => {
+        transitionPage()
+        setTimeout(() => navigate(`/base-de-conhecimento/problema/${id}`), 500)
+    }
+
+    const [isAnimating, setIsAnimating] = useState(true);
+    const transitionPage = () => {
+        setIsAnimating(true)
+        setTimeout(() => {
+            setIsAnimating(false)
+        }, 1500)
+    }
+
+    const [dataProblems, setDataProblems] = useState(null)
 
     const [returnInputMessage, setReturnInputMessage] = useState(null)
 
@@ -18,26 +38,8 @@ const BaseDeConhecimento = () => {
 
     const [removeProblem, setRemoveProblem] = useState(null)
 
-    const [knowledgeBase, setKnowledgeBase] = useState([
-        {
-            categoria: 'SAP',
-            tipo: 'Inativação de conta',
-            descricao: 'Após o desligamento de um usuário temporariamente, o mesmo deve ter sua conta inativa até o retorno',
-            resolucao: '1. Obtenha o nome de usuário \n 2. Entre no sistema na aba inativação de contas \n 3.0 Desative a conta do usuário.'
-        } ,
-        {
-            categoria: 'Gestão perfil',
-            tipo: 'Criação de perfil',
-            descricao: 'Após a entrada de um novo colaborador, o mesmo deve ter uma conta própria com ermissões específicas.',
-            resolucao: '1. Entre na aba "Criação de Conta \n 2. Defina um nome de usuário \n 3. Defina uma senha \n 4. Defina as permissões"'
-        }
-    ])
 
-    const filteredKnowledgeBase = knowledgeBase.filter(problem =>
-        searchTerm === '' || problem.categoria.toLowerCase().startsWith(searchTerm.toLowerCase())
-      );
-
-    const [newProblem, setNewProblem] = useState({
+    const [data, setNewProblem] = useState({
         categoria: '',
         tipo: '',
         descricao: '',
@@ -56,9 +58,46 @@ const BaseDeConhecimento = () => {
         console.log('removed', index)
     }
 
-    const addProblem = () => {
-        setKnowledgeBase(prevState => [...prevState, newProblem])
-        setReturnInputMessage('Problema criado!')
+    const [page, setPage] = useState(1)
+
+    const searchSomeProblems = async () => {
+        try {
+            const response = await axios.get(`${APIurl}/problems-quantity?page=${page}&limit=3`)
+
+            setDataProblems(response.data.problems)
+            console.log(response.data)
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    
+    const changePage = (prevOrNext) => {
+        if(prevOrNext === 'prev'){
+            page > 1 && setPage(page - 1)
+        } else if (prevOrNext === 'next'){
+            setPage(page + 1)
+        }
+    }
+
+    useEffect(() => {
+        setIsAnimating(true)
+        setTimeout(() => searchSomeProblems(), 300);
+        setTimeout(() => setIsAnimating(false), 500);
+    }, [page])
+
+    const addProblem = async () => {
+        try {
+            const response = await axios.post(`${APIurl}/save-problem`, data)
+            console.log(response)
+
+            setReturnInputMessage('Problema criado!')
+
+        } catch (error) {
+            console.log('erro', error.message)
+            setReturnInputMessage(error.message)
+        }
+
 
         setTimeout(() => {
             setReturnInputMessage(null)
@@ -69,7 +108,8 @@ const BaseDeConhecimento = () => {
 
     const showInputInitial = () => {
         return(
-            <div className='container-fluid px-sm-5 px-3'>
+            
+            <div className={`page ${isAnimating ? 'page-hidden' : ''} container-fluid px-sm-5 px-3`}>
                 <div className="d-flex justify-content-center mt-5 px-sm-5">
                     <div className="position-relative " style={{width: "80%"}}>
                         <input 
@@ -87,24 +127,17 @@ const BaseDeConhecimento = () => {
                     </div>
                 </div>
 
-                <div className="d-flex justify-content-center mt-5 px-sm-5">
+                <div className="d-flex justify-content-center flex-column align-items-center mt-5 px-sm-5">
                     <div className="bg-secondaryy rounded-lg py-3 py-sm-5 px-sm-5 px-3" style={{width: "80%"}}>
-                        {/* <div className="text-light mb-5">
-                            <h2 className="fs-4">Financeiro</h2>
-                            <hr />
-
-                            <p className="ms-2 mb-3">Lorem ipsum dolor sit a</p>
-
-                            <p className="ms-2 mb-3">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Similique, dolore.</p>
-
-                            <p className="ms-2 mb-3">Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio dignissimos eveniet nemo voluptate consectetur doloribus.</p>
-                        </div> */}
 
                         {
-                            filteredKnowledgeBase.map((problem, index) => (
-                                <div className={`text-light ${index !== knowledgeBase.length - 1 ? 'mb-5' : ''}`}>
-                                    <div className="d-flex justify-content-between">
-                                        <h2 className="fs-4 cursor-pointer" onClick={() => setRemoveProblem(removeProblem === index ? null : index)} >{problem.categoria}</h2>
+                            dataProblems ? dataProblems.map((problem, index) => (
+                                <div 
+                                key={problem.id} 
+                                onClick={() => goToPage(problem.id)}
+                                className={`cursor-pointer text-light ${index !== dataProblems.length - 1 ? 'mb-5' : ''}`}>
+                                    <div className="d-flex justify-content-between ">
+                                        <h2 className="fs-4 cursor-pointer">{problem.categoria}</h2>
 
                                         {removeProblem === index && (<IoRemoveCircleOutline className="fs-4 text-light cursor-pointer" onClick={() => removeProblemRequest('Insira o ID ou identificador para excluir')}/>)}
                                             {/* Adicionar propriedades de objeto */}
@@ -115,13 +148,20 @@ const BaseDeConhecimento = () => {
 
                                     <p className="ms-2 mb-3">{problem.descricao}</p>
 
-                                    <p className="ms-2 mb-3">{problem.resolucao}</p>
+                                    {/* <p className="ms-2 mb-3">{problem.resolucao}</p> */}
+
+                                    
                                 </div>
-                            ))
+
+                            )) : <p className="text-light p-3 text-center">Carregando...</p>
                         }
 
-                        
                     </div> 
+
+                    <div className=" d-flex justify-content-around  text-light  rounded w-80 mb-5 mt-4 p-2" >
+                        <div onClick={() => changePage('prev')} className="col-3 bg-secondaryy option-back-btn btn text-light"><IoMdArrowRoundBack/></div>
+                        <div onClick={() => changePage('next')} className="col-3 bg-secondaryy option-back-btn btn text-light"><IoMdArrowRoundForward/></div>
+                    </div>
                 </div>
 
             </div>
@@ -132,9 +172,13 @@ const BaseDeConhecimento = () => {
         return (
             <div className='container-fluid px-sm-5 px-3'>
                 <div className="d-flex flex-column align-items-center justify-content-center mt-5 px-sm-5">
-                    { returnInputMessage ? (
+                    { returnInputMessage === 'Problema criado!' ? (
                         <div className="bg-success rounded-lg d-flex align-items-center justify-content-center p-3" style={{width: "80%"}}>
-                        <p className="m-0">Problema criado com sucesso</p>
+                        <p className="m-0">Problema criado com sucesso!</p>
+                        </div>
+                    ) : returnInputMessage && returnInputMessage !== 'Problema criado!' ? (
+                        <div className="bg-danger text-light rounded-lg d-flex align-items-center justify-content-center p-3" style={{width: "80%"}}>
+                        <p className="m-0">Erro no cadastro do produto</p>
                         </div>
                     ) : null }
 
@@ -171,40 +215,7 @@ const BaseDeConhecimento = () => {
 
                 <div className=' h-100-vh bg-success row'>
 
-                    <section className='col-12 col-sm-3 bg-secondaryy h-100-vh px-3'>
-
-                        <div className="w-100 d-flex align-items-center justify-content-center mt-5">
-                            <img src="public\images\imagem_2024-03-27_171656305-removebgcopia-preview.png" style={{width: '50%', filter: 'invert(100%)'}} alt="" />
-                        </div>
-
-                        <div className='d-flex w-100 mt-5 flex-column font-anybody'>              
-                            <div className='w-70 text-light mt-5'>
-                                
-                            <div className=" d-flex align-items-center mt-4 ps-2">
-                                <a href="/" className='m-0 fw-bold text-decoration-none text-light' style={{fontSize: "100%"}}>Links</a>
-                            </div>
-
-                            <hr />
-
-                                <div className="d-flex align-items-center mt-4 ps-2">
-                                    <a href="/sistema-de-fluxo" className='m-0 fw-bold text-decoration-none text-light' style={{fontSize: "100%"}}>Sistema de fluxo</a>
-                                </div>
-
-                                <hr />
-
-                                <div className="border-start border-2 d-flex align-items-center mt-4 ps-2">
-                                    <a className='m-0 fw-bold text-decoration-none text-light' style={{fontSize: "100%"}} href="/base-de-conhecimento">Base de conhecimento</a>
-                                </div>
-
-                                <hr className='w-100' />
-
-                                <div className="d-flex align-items-center mt-4 ps-2">
-                                    <a className='fw-bold m-0 text-decoration-none text-light' style={{fontSize: "100%"}} href="/sobre-o-projeto">Sobre o projeto</a>
-                                </div>
-
-                            </div>
-                        </div>
-                    </section>
+                    <Section presentTopic={2} />
 
                     <main className='col p-0 bg-primaryy w-100 h-100-vh' >
                         <Header />

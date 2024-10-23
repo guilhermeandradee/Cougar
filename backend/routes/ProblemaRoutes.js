@@ -12,3 +12,10 @@ router.put('/problem/:id/update',ProblemaController.updateProblem)
 router.get('/get-all-problems', ProblemaController.getAll)
 router.post('/save-problem', ProblemaController.saveProblem)
 router.post('/import-problems',ImportController.ImportProblems)
+
+router.get('/problems-quantity', ProblemaController.getQuantity);
+ 
+
+// ------ Solutions
+
+router.post('/get-solution', ProblemaController.getSolution)

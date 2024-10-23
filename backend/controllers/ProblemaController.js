@@ -2,6 +2,7 @@ import gerar_palavras_chave from "../services/IAService.js";
 import ProblemaService from "../services/ProblemaService.js";
 import IAService from "../services/IAService.js";
 import AlgoritmoService from "../services/AlgoritmoService.js";
+import Problema from "../models/ProblemaModel.js";
 
 class ProblemaController {
     async saveProblem(req, res) {
@@ -138,6 +139,20 @@ class ProblemaController {
 
     }
 
+    async getQuantity (req, res) {
+        const { page = 1, limit = 5 } = req.query;
+        const skip = (page - 1) * limit;
+        
+        const problems = await ProblemaService.buscarQuantidadeEspecifica(skip, limit)
+        const totalProblems = await Problema.countDocuments();
+     
+        res.json({
+            problems,
+            totalPages: Math.ceil(totalProblems / limit),
+            currentPage: Number(page)
+        });
+     }
+
     /* ----------------- */    
 
     async getSolution(req, res){
@@ -150,8 +165,6 @@ class ProblemaController {
         }
 
         const similaridade = await AlgoritmoService.calcularSimilaridade(descricao)
-
-        // console.log(similaridade)
 
         return res.status(200).json({
             message: 'Solução gerada!', 
