@@ -7,7 +7,7 @@ class ImportService {
         try {
             await connectDB();
 
-            const book = xlsx.readFile(filePath);
+            const book = xlsx.read(filePath.data);
             const sheetName = book.SheetNames[0];
             const sheet = book.Sheets[sheetName];
 

@@ -6,8 +6,10 @@ import { app } from "./config/serverConfig.js";
 import { router } from "./routes/ProblemaRoutes.js";
 import e from "express";
 import cors from 'cors'
+import fileUpload from 'express-fileupload';
 
 app.use(cors())
+app.use(fileUpload())
 app.use(e.json());
 app.use(router)
 
