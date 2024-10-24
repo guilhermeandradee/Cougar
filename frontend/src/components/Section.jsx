@@ -25,14 +25,14 @@ const Section = ({ presentTopic }) => {
 
                             <hr />
 
-                            <div className={` d-flex align-items-center mb-4 ps-2 ${returnBorder(2)}`}>
+                            <div className={` d-flex align-items-center mb-3 ps-2 ${returnBorder(2)}`}>
                                 <a className='m-0 fw-bold text-decoration-none text-light' style={{fontSize: "100%"}} href="/base-de-conhecimento">Base de conhecimento</a>
                             </div>
 
                             <hr className='w-100' />
 
                             <div className={`d-flex align-items-center mt-4 ps-2 ${returnBorder(3)}`}>
-                                <a className='fw-bold m-0 text-decoration-none text-light' style={{fontSize: "100%"}} href="/sobre-o-projeto">Sobre o projeto</a>
+                                <a className='fw-bold m-0 text-decoration-none text-light' style={{fontSize: "100%"}} href="/sobre-o-projeto">Sobre</a>
                             </div>
 
                         </div>

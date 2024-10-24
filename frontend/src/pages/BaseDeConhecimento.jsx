@@ -115,16 +115,20 @@ const BaseDeConhecimento = () => {
 
     const handleIconClick = () => {
         fileInputRef.current.click();
-
-        setTimeout(() => handleFileUpload(), 3000 )
     };
       
     const handleFileChange = (e) => {
         const file = e.target.files[0];
-        if (file) {
+        console.log('file', file);
         setSelectedFile(file);
-        }
     };
+
+    useEffect(() => {
+        if (selectedFile) {
+            console.log('File selected:', selectedFile); 
+            handleFileUpload(); 
+        }
+    }, [selectedFile]);
 
     const handleFileUpload = async () => {
         if (!selectedFile) {
@@ -132,17 +136,14 @@ const BaseDeConhecimento = () => {
           return;
         }
     
-        // No frontend, você pode usar um FormData para enviar o arquivo diretamente se quiser
-        // No seu caso, vamos enviar o caminho local do arquivo (ou seu nome)
         
         try {
-            const filePath = selectedFile.name; 
-            const fileData = {
-                filePath: filePath,
-            }
+            const fileData = new FormData();
+            fileData.append('file', selectedFile); // Append the file itself
     
-            console.log(filePath);
-          const importResponse = await axios.post(APIurl,'/import-problems', fileData);
+            console.log('File Data antes do envio:', fileData.get('file'))
+
+            const importResponse = await axios.post(`${APIurl}/import-problems`, fileData);
     
           console.log('Resposta da importação:', importResponse.data);
         } catch (error) {
@@ -176,7 +177,7 @@ const BaseDeConhecimento = () => {
                     ref={fileInputRef}
                     type="file"
                     style={{ display: 'none' }}
-                    onChange={handleFileChange}
+                    onChange={(e) => handleFileChange(e)}
                 />
                 
                 <div className="d-flex justify-content-center flex-column align-items-center mt-5 px-sm-5">

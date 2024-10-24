@@ -15,12 +15,12 @@ const SobreOProjeto = () => {
 
                 <div className=' h-100-vh bg-success row'>
 
-                    <Section />
+                    <Section presentTopic={3} />
 
                     <main className='col p-0 bg-primaryy w-100 h-100-vh' >
                         <Header />
 
-                        <div  className='container-fluid px-sm-5 px-3' style={{marginTop: "6rem"}}>
+                        {/* <div  className='container-fluid px-sm-5 px-3' style={{marginTop: "6rem"}}>
                             <div className="row align-items-center justify-content-center mt-5 px-sm-5">
                                 <div 
                                 onClick={() => goToLinkedin('https://www.linkedin.com/in/guilherme-andrade-600842288/')}
@@ -77,14 +77,16 @@ const SobreOProjeto = () => {
                                 </div>
 
                             </div>
-                        </div>
+                        </div> */}
 
                         <div className="mt-5 px-5 w-100 d-flex flex-column align-items-center">
                             <div className="bg-secondaryy rounded-lg w-80 p-5">
                                 <h1 className="text-light fs-2">Tecnologias utilizadas</h1>
                                 <hr className="text-light" />
-                                <p className="text-light m-0">O site da Cougar foi construído utilizando html, css (para construção da página), Javacript (Sistema de fluxo) , bootstrap (estilo) e React (renderização de componentes, popups entre outros). <br /> <br />
-                                O website contém 5 páginas sendo 4 acessíveis através do menu, e uma através do botão "+" na base de conhecimento.
+                                <p className="text-light m-0">Frontend: ReactJS, Bootstrap<br /> <br />
+                                Backend: NodeJS, Express, Algoritmo TD-IDF, IAOpenAI, 
+                                <br /> <br />
+                                Banco de dadso: MongoDB
                                 </p>
                             </div>
                         </div>
