@@ -1,25 +1,40 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import './Header.css'
 
-const Solutions = ({ solutions, backToInput, transitionPage }) => {
+const Solutions = ({ solutions, backToInput }) => {
 
     console.log(solutions.data)
     const top3Solutions = solutions.data
+
+    const [isAnimating, setIsAnimating] = useState(true);
+    const transitionPage = () => {
+        setIsAnimating(true)
+        setTimeout(() => {
+            setIsAnimating(false)
+        }, 500)
+    }
 
     const handleClickButton = () => {
         transitionPage()
         setTimeout(() => {
             backToInput()
-        }, 1500)
+        }, 500)
     }
+
+    useEffect(() => {
+        setTimeout(() => {
+            setIsAnimating(false)
+        }, 800)
+    })
 
     return (
         <>
             <div className='container justify-content-center d-flex' style={{height: "60%"}}>
 
-                <div className="d-flex flex-column align-items-center mt-5 w-80">
+                <div className={`page ${isAnimating ? 'page-hidden' : ''}   d-flex flex-column align-items-center mt-5 w-80`}>
                         <h2 className="fs-4 text-light mt-3">Soluções retornadas</h2>
 
-                        <div className="row mt-5 w-100">
+                        <div className={`  row mt-5 w-100`}>
                             {
                                 top3Solutions !== null && (top3Solutions.map(solution => (
                                     <div className="mt-4 col-12 justify-content-center d-flex bg-secondaryy rounded text-light p-3">

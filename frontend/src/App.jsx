@@ -18,9 +18,13 @@ function App() {
     const [solutions, setSolutions] = useState(null)
 
 
-    useEffect(() => setTimeout(() => {
-        setIsAnimating(false)
-    }, 300), [])
+    useEffect(() => {
+        setIsAnimating(true)
+        setTimeout(() => {
+        
+            setIsAnimating(false)
+        }, 300)
+    }, [])  
 
     const [isAnimating, setIsAnimating] = useState(true);
     const transitionPage = () => {
@@ -47,7 +51,7 @@ function App() {
             setTimeout(() => {
                 setRetornarInputOuSolucao('solucao')
                 setIsAnimating(false)
-            }, 1500)
+            }, 1000)
         } catch (error) {
             console.log(error.message)
         }
@@ -91,7 +95,7 @@ function App() {
                                     </div>
 
                                     
-                                    <button onClick={() => getSolutionOfProblem()} className="row-12 btn text-light bg-secondaryy rounded-lg w-100 mb-5 mt-4 p-2" >Adicionar</button>
+                                    <button onClick={() => getSolutionOfProblem()} className="row-12 btn text-light bg-secondaryy rounded-lg w-100 mb-5 mt-4 p-2" >Buscar solução</button>
 
 
                                     
@@ -111,5 +115,6 @@ function App() {
     </>
   )
 }
+
 
 export default App

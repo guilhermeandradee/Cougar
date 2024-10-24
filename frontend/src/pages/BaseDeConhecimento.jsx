@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Header from "../components/Header";
 import '../Home.css'
 
@@ -12,6 +12,9 @@ import { Link, useNavigate } from "react-router-dom";
 
 import { IoMdArrowRoundForward } from "react-icons/io";
 import { IoMdArrowRoundBack } from "react-icons/io";
+import { LuImport } from "react-icons/lu";
+
+
 
 const BaseDeConhecimento = () => {
 
@@ -106,6 +109,48 @@ const BaseDeConhecimento = () => {
 
     const [showInputType, setShowInputType] = useState('initial')
 
+
+    const fileInputRef = useRef(null);
+    const [selectedFile, setSelectedFile] = useState(null);
+
+    const handleIconClick = () => {
+        fileInputRef.current.click();
+    };
+      
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        console.log('file', file);
+        setSelectedFile(file);
+    };
+
+    useEffect(() => {
+        if (selectedFile) {
+            console.log('File selected:', selectedFile); 
+            handleFileUpload(); 
+        }
+    }, [selectedFile]);
+
+    const handleFileUpload = async () => {
+        if (!selectedFile) {
+          alert('Por favor, selecione um arquivo.');
+          return;
+        }
+    
+        
+        try {
+            const fileData = new FormData();
+            fileData.append('file', selectedFile); // Append the file itself
+    
+            console.log('File Data antes do envio:', fileData.get('file'))
+
+            const importResponse = await axios.post(`${APIurl}/import-problems`, fileData);
+    
+          console.log('Resposta da importação:', importResponse.data);
+        } catch (error) {
+          console.error('Erro ao enviar o arquivo:', error);
+        }
+    }
+
     const showInputInitial = () => {
         return(
             
@@ -124,9 +169,17 @@ const BaseDeConhecimento = () => {
 
                         <MdAddCircleOutline onClick={changeShowInput} className="fs-4 text-light position-absolute cursor-pointer" style={{top:10, left: 'calc(100% - 20px)', }}  />
 
+                        <LuImport onClick={handleIconClick} className="fs-4 text-light position-absolute cursor-pointer" style={{top:65, left: 'calc(100% - 20px)'}}  />
+
                     </div>
                 </div>
-
+                <input
+                    ref={fileInputRef}
+                    type="file"
+                    style={{ display: 'none' }}
+                    onChange={(e) => handleFileChange(e)}
+                />
+                
                 <div className="d-flex justify-content-center flex-column align-items-center mt-5 px-sm-5">
                     <div className="bg-secondaryy rounded-lg py-3 py-sm-5 px-sm-5 px-3" style={{width: "80%"}}>
 
