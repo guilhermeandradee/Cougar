@@ -9,7 +9,7 @@ import ProblemaDaBase from "./pages/ProblemaDaBase"
 const MainRoutes = () => {
     return(
         <Routes>
-            <Route path="/" element={<Presentation/>} /> 
+            <Route path="/" element={<App/>} /> 
             <Route path="/sistema-de-fluxo" element={<App/>} /> 
             <Route path="/base-de-conhecimento" element={<BaseDeConhecimento/>} /> 
             <Route path="/sobre-o-projeto" element={<SobreOProjeto/>} />
