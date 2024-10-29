@@ -86,7 +86,7 @@ function App() {
                                 )}
 
                                 <div className='col-md-8 col-sm-10 d-flex align-items-center flex-column mt-5'>
-                                    <p className='row text-low text-center mt-3 fs-5'>Digite uma breve descrição abaixo e descubra a melhor solução personalizada para o seu suporte</p>
+                                    <p className='row text-low text-center mt-3 fs-5' style={{fontFamily: 'anybody', fontWeight: 'bold'}} >Como posso ajudá-lo?</p>
 
                                     <div className='row-12 w-100 mt-5'>
                                         <textarea name="resolucao" placeholder="Trocar permissões de acesso de um usuário" className="text-light mt-4 form-control bg-secondaryy border-0 px-3 py-3 pb-5 rounded-lg gray-placeholder" id="" maxLength={300} onChange={(e) => setInputGetSolution(e.target.value)}>
