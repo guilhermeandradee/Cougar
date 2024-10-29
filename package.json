@@ -3,6 +3,10 @@
     "axios": "^1.7.7"
   },
   "scripts": {
-    "build": "vite build"
+    "build": "vite build",
+    "start": "concurrently \"npm run start --prefix backend\" \"npm run dev --prefix frontend\""
+  },
+  "devDependencies": {
+    "concurrently": "^9.0.1"
   }
 }
