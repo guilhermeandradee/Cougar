@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const openai = new OpenAI({apiKey: process.env.API_OPENAI_KEY});
+const openai = new OpenAI({apiKey: process.env.API_OPENAI_KEY || ''});
 class IAService {
 
 // MUDAR O MODELO, INSTRUÇÕES E CONTENT.
