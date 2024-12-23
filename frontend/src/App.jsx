@@ -10,7 +10,7 @@ import Header from './components/Header'
 import Solutions from './components/Solutions';
 import Section from './components/Section';
 
-export const APIurl = 'http://localhost:8080'
+export const APIurl = 'http://147.93.8.169:8090'
 
 function App() {
     const [downloadResponse, setDownloadResponse] = useState(null)

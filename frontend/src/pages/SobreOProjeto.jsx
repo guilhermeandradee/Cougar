@@ -86,7 +86,13 @@ const SobreOProjeto = () => {
                                 <p className="text-light m-0">Frontend: ReactJS, Bootstrap<br /> <br />
                                 Backend: NodeJS, Express, Algoritmo TD-IDF, IAOpenAI, 
                                 <br /> <br />
-                                Banco de dadso: MongoDB
+                                Banco de dados: MongoDB
+                                </p>
+
+                                <h1 className="text-light fs-2 mt-5">Como utilizar?</h1>
+                                <hr className="text-light" />
+                                <p className="text-light m-0">O Cougar é um sistema desenvolvido para analistas de suporte, por isso, o usuário pode fazer uma pergunta como por exemplo "como remover permissões de um usuário?". O Algoritmo juntamente com a IA irão retornar as melhores soluções encontradas. Teste você mesmo! <br /> <br />
+                                Também é possível adicionar e remover instruções da base de conhecimento clicando nos ícones relativos.
                                 </p>
                             </div>
                         </div>
