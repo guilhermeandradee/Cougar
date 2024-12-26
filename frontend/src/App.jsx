@@ -10,7 +10,7 @@ import Header from './components/Header'
 import Solutions from './components/Solutions';
 import Section from './components/Section';
 
-export const APIurl = 'https://cougar.andrededev.com.br'
+export const APIurl = 'https://cougar.andrededev.com.br' 
 
 function App() {
     const [downloadResponse, setDownloadResponse] = useState(null)
